@@ -111,7 +111,18 @@ Checklist:
 - Test light and dark modes.
 - Resize viewport to verify responsive layout and cluster behavior.
 
-## 9. Coding Style
+## 9. Testing (Surfaces CSS)
+
+- Location: `src/vxs/css/surfaces/tests` (Jest, jsdom).
+- Install (if Jest not available): `cd src/vxs/css/surfaces/tests && npm install --no-save jest @jest/globals jsdom`.
+- Run: `cd src/vxs/css/surfaces/tests && NODE_OPTIONS=--experimental-vm-modules npx jest --config jest.config.cjs --runInBand`.
+- Covered scenarios (from `docs/Test Scenarios.md`):
+  - Mapping semantics: known/unknown keys, shallow copy behavior, value invariants.
+  - Mapper behavior: single/multiple keys, unknown keys ignored, preserving existing classes, idempotency, scoped `processAll`.
+  - Copy helper ordering: finish → density → bloom → material → shape → other with internal glue classes stripped.
+- Keep new tests aligned with mapping order and class stack conventions documented in `README.md` and `Requirements.md`.
+
+## 10. Coding Style
 
 - Prefer **CSS custom properties** over repeating raw values.
 - Keep selectors shallow and class-based; avoid tight coupling to DOM structure.

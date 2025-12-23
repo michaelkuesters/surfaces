@@ -56,11 +56,11 @@ export function processElement(element, options = {}) {
     ? (element.className || '').split(/\s+/).filter(Boolean)
     : [];
 
-  // Combine existing and mapped classes
-  const allClasses = [...existingClasses, ...mappedClasses];
+  // Combine existing and mapped classes, deduplicating
+  const allClassesSet = new Set([...existingClasses, ...mappedClasses]);
   
   // Update element classes
-  element.className = allClasses.join(' ');
+  element.className = Array.from(allClassesSet).join(' ');
 
   // Remove data-surface attribute if requested
   if (removeAttribute) {
