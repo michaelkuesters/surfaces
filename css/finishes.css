@@ -77,7 +77,7 @@
   /* Glass/translucent: sample page background */
   --sample-page: 1;
   --finish-lightness-mod: 0;
-  --transparency-factor: 0;
+  --transparency-factor: 0.5;
 
   /* overlay: minimal scrim, no blur */
   --overlay-blur: 0px;
