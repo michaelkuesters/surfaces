@@ -1,0 +1,40 @@
+/* vxs-ui-kit/layout.css
+   Minimal layout helpers (keep small; avoid Tailwind drift).
+*/
+
+.grid{
+  display:grid;
+  gap: calc(var(--space-5) * var(--density, 1));
+}
+
+.grid.cols-2{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid.cols-3{ grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+@media (max-width: 900px){
+  .grid.cols-3{ grid-template-columns: 1fr; }
+}
+@media (max-width: 900px){
+  .grid.cols-2{ grid-template-columns: 1fr; }
+}
+
+.stack{
+  display:flex;
+  flex-direction: column;
+  gap: calc(var(--space-3) * var(--density, 1));
+}
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--space-2) * var(--density, 1));
+}
+
+.cluster-row {
+  display: grid;
+  gap: calc(var(--space-2) * var(--density, 1));
+  grid-template-columns: repeat(auto-fill, minmax(var(--cluster-min, 6rem), 1fr));
+  align-items: start;
+  box-sizing: border-box;
+  width: 100%;
+}
+

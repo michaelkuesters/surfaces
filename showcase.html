@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>VXS UI Kit — Showcase</title>
+
+  <link rel="stylesheet" href="./css/tokens.css"/>
+  <link rel="stylesheet" href="./css/materials.css"/>
+  <link rel="stylesheet" href="./css/finishes.css"/>
+  <link rel="stylesheet" href="./css/shapes.css"/>
+  <link rel="stylesheet" href="./css/layout.css"/>
+  <link rel="stylesheet" href="./css/components.css"/>
+  <link rel="stylesheet" href="./css/demo.css"/>
+</head>
+
+<body>
+  <div class="wrap">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+      <div>
+        <h1 style="margin: 0 0 10px;">VXS UI Kit</h1>
+        <p class="lead" style="margin: 0;">
+          Descriptive classes only: component + material + finish + shape + size. No styling-detail classes.
+          Recolor the whole UI by changing the three <span class="code">--ui-*</span> primitive triplets in <span class="code">tokens.css</span>.
+        </p>
+        <hr>
+        <a class="button polished onyx pill hoverable" href="./index.html"><span>Open Mapper</span></a>
+      </div>
+      <div class="cluster" style="margin: 0;">
+        <button class="button transparent default-secondary pill hoverable" data-mode="light" title="Light mode"><span>☀️ Light</span></button>
+        <button class="button transparent default-secondary pill hoverable" data-mode="dark" title="Dark mode"><span>🌙 Dark</span></button>
+        <button class="button transparent default-secondary pill hoverable" data-mode="preference" title="Browser preference"><span>💻 Auto</span></button>
+      </div>
+    </div>
+
+    <div class="surface sheet transparent default-secondary window">
+      <div class="stack">
+        <h2>Shapes</h2>
+        <div class="cluster-row">
+          <button class="button trimmed default-secondary pill hoverable"><span>Pill</span></button>
+          <button class="button trimmed default-secondary round hoverable"><span>Round</span></button>
+          <button class="button trimmed default-secondary window hoverable"><span>Window</span></button>
+          <button class="button trimmed default-secondary plaque hoverable"><span>Plaque</span></button>
+          <button class="button trimmed default-secondary gem hoverable"><span>Gem</span></button>
+          <button class="button trimmed default-secondary chevron-start hoverable"><span>Chevron Start</span></button>
+          <button class="button trimmed default-secondary chevron-middle hoverable"><span>Chevron Middle</span></button>
+        </div>
+
+        <h2>Materials</h2>
+        <div class="cluster-row">
+          <!-- Metals -->
+          <span class="chip metallic gold pill hoverable"><span>Gold</span></span>
+          <span class="chip metallic silver pill hoverable"><span>Silver</span></span>
+          <span class="chip metallic copper pill hoverable"><span>Copper</span></span>
+          <!-- Gems -->
+          <span class="chip water diamond pill hoverable"><span>Diamond</span></span>
+          <span class="chip water sapphire pill hoverable"><span>Sapphire</span></span>
+          <span class="chip water ruby pill hoverable"><span>Ruby</span></span>
+          <span class="chip water emerald pill hoverable"><span>Emerald</span></span>
+          <span class="chip water topaz pill hoverable"><span>Topaz</span></span>
+          <span class="chip water amethyst pill hoverable"><span>Amethyst</span></span>
+          <span class="chip water jade pill hoverable"><span>Jade</span></span>
+          <span class="chip water amber pill hoverable"><span>Amber</span></span>
+          <!-- Dark/Base -->
+          <span class="chip tinted onyx pill hoverable"><span>Onyx</span></span>
+          <span class="chip flat carbon pill hoverable"><span>Carbon</span></span>
+          <span class="chip transparent black-hole pill hoverable"><span>Black Hole</span></span>
+          <!-- Special -->
+          <span class="chip transparent glass pill hoverable"><span>Glass</span></span>
+          <span class="chip transparent matrix pill hoverable"><span>Matrix</span></span>
+          <span class="chip transparent tron pill hoverable"><span>Tron</span></span>
+          <span class="chip transparent scifi pill hoverable"><span>Sci-Fi</span></span>
+        </div>
+
+        <h2>Finishes</h2>
+        <div class="cluster-row">
+          <span class="chip transparent default-secondary pill hoverable" data-finish="transparent"><span>transparent</span></span>
+          <span class="chip frosted default-secondary pill hoverable" data-finish="frosted"><span>frosted</span></span>
+          <span class="chip milky default-secondary pill hoverable" data-finish="milky"><span>milky</span></span>
+          <span class="chip tinted default-secondary pill hoverable" data-finish="tinted"><span>tinted</span></span>
+          <span class="chip liquid default-secondary pill hoverable" data-finish="liquid"><span>liquid</span></span>
+          <span class="chip water default-secondary pill hoverable" data-finish="water"><span>water</span></span>
+          <span class="chip metallic default-secondary pill hoverable" data-finish="metallic"><span>metallic</span></span>
+          <span class="chip polished default-secondary pill hoverable" data-finish="polished"><span>polished</span></span>
+          <span class="chip glossy default-secondary pill hoverable" data-finish="glossy"><span>glossy</span></span>
+          <span class="chip anodized default-secondary pill hoverable" data-finish="anodized"><span>anodized</span></span>
+          <span class="chip etched default-secondary pill hoverable" data-finish="etched"><span>etched</span></span>
+          <span class="chip trimmed default-secondary pill hoverable" data-finish="trimmed"><span>trimmed</span></span>
+          <span class="chip banded default-secondary pill hoverable" data-finish="banded"><span>banded</span></span>
+          <span class="chip flat default-secondary pill hoverable" data-finish="flat"><span>flat</span></span>
+        </div>
+
+        <h2>Bloom</h2>
+        <div class="cluster-row">
+          <span class="chip transparent matrix pill hoverable" data-bloom="none"><span>none</span></span>
+          <span class="chip transparent matrix pill hoverable bloom-weak" data-bloom="bloom-weak"><span>weak</span></span>
+          <span class="chip transparent matrix pill hoverable bloom-mild" data-bloom="bloom-mild"><span>mild</span></span>
+          <span class="chip transparent matrix pill hoverable bloom-strong" data-bloom="bloom-strong"><span>strong</span></span>
+        </div>
+
+        <h2>Density</h2>
+        <div class="cluster-row">
+          <span class="chip transparent default-secondary pill hoverable" data-density="default"><span>default</span></span>
+          <span class="chip transparent default-secondary pill hoverable" data-density="dense"><span>dense</span></span>
+          <span class="chip transparent default-secondary pill hoverable" data-density="packed"><span>packed</span></span>
+        </div>
+
+        <div class="cluster-row">
+          <details class="dropdown transparent default-secondary window" open>
+            <summary class="button milky default-secondary gem hoverable"><span>Menu <span class="chev" aria-hidden="true">▾</span></span></summary>
+            <!-- The menu is a surface; add .overlay so finishes supply readability scrim/blur. -->
+            <div class="menu surface card liquid default-secondary overlay">
+              <button class="menu-item">Profile</button>
+              <button class="menu-item">Settings</button>
+              <div class="sep" aria-hidden="true"></div>
+              <button class="menu-item">Sign out</button>
+            </div>
+          </details>
+        </div>
+
+        <div class="slider default-primary">
+          <label for="r1">Slider</label>
+          <input id="r1" type="range" min="0" max="100" value="62"/>
+          <div class="small">Uses accent-color (native). Material affects it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="surface card transparent default-secondary window">
+      <div class="stack">
+        <div class="small">Current menu class stack (click to copy)</div>
+        <pre class="code" id="class-copy-text" style="user-select: text;"></pre>
+        <button class="button glossy jade pill hoverable" id="copy-class-btn"><span>Copy classes</span></button>
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <div class="section">
+      <h2>Buttons</h2>
+      <div class="grid cols-3">
+        <div class="surface card transparent onyx window">
+          <div class="stack">
+            <div>
+              <button class="button transparent onyx pill hoverable"><span>onyx · transparent · pill</span></button>
+            </div>
+            <pre class="code">&lt;button class="button transparent onyx pill"&gt;…&lt;/button&gt;
+&lt;div class="surface card transparent onyx pill"&gt;…&lt;/div&gt;</pre>
+          </div>
+        </div>
+
+        <div class="surface card tinted sapphire window">
+          <div class="stack">
+            <div>
+              <button class="button milky sapphire gem hoverable"><span>sapphire · milky · gem</span></button>
+            </div>
+            <pre class="code">&lt;button class="button milky sapphire gem"&gt;…&lt;/button&gt;
+&lt;div class="surface card tinted sapphire gem"&gt;…&lt;/div&gt;</pre>
+          </div>
+        </div>
+
+        <div class="surface card glossy ruby window">
+          <div class="stack">
+            <div>
+              <button class="button banded ruby window hoverable"><span>ruby · banded · window</span></button>
+            </div>
+            <pre class="code">&lt;button class="button banded ruby window"&gt;…&lt;/button&gt;
+&lt;div class="surface card banded ruby window"&gt;…&lt;/div&gt;</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Surfaces</h2>
+      <div class="grid cols-2">
+        <div class="surface card transparent default-secondary window">
+          <div class="stack">
+            <div><strong>Card</strong> — default-secondary · transparent · window</div>
+            <div class="small">Use for content blocks, tool panels, detail views.</div>
+            <div class="cluster-row">
+              <span class="chip transparent default-primary pill"><span>chip</span></span>
+              <span class="chip flat default-secondary pill"><span>tag</span></span>
+              <span class="chip flat default-contrast pill"><span>contrast</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface sheet liquid default-primary window">
+          <div class="stack">
+            <div><strong>Sheet</strong> — default-primary · liquid · window</div>
+            <div class="small">Use for large panes, settings, side sheets, dashboards.</div>
+            <div class="cluster-row">
+              <button class="button flat default-contrast pill hoverable"><span>Action</span></button>
+              <button class="button transparent default-secondary pill hoverable"><span>Secondary</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Segmented control</h2>
+      <div class="surface card transparent default-secondary pill">
+        <div class="stack">
+          <div class="segmented transparent default-secondary pill">
+            <button class="selected">Week</button>
+            <button>Month</button>
+            <button>Year</button>
+          </div>
+          <div class="small">Markup stays descriptive. “selected” is a state class.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Dialog</h2>
+      <div class="stack">
+        <div class="surface dialog liquid diamond window">
+          <div class="stack">
+            <div><strong>Dialog title</strong></div>
+            <div class="small">Dialogs are just surfaces with a role. No special styling details.</div>
+            <div class="cluster-row">
+              <button class="button milky sapphire pill hoverable"><span>Confirm</span></button>
+              <button class="button milky ruby pill hoverable"><span>Cancel</span></button>
+            </div>
+          </div>
+        </div>
+        
+        <h2 style="margin-top: 26px;">Density modifiers</h2>
+        <div class="surface card transparent default-secondary window">
+          <div class="stack">
+            <div><strong>Default spacing</strong></div>
+            <div class="small">This stack uses default spacing (--density: 1)</div>
+          </div>
+        </div>
+        
+        <div class="surface card transparent default-secondary window dense">
+          <div class="stack">
+            <div><strong>Dense spacing</strong></div>
+            <div class="small">This stack uses dense spacing (--density: 0.5)</div>
+          </div>
+        </div>
+        
+        <div class="surface card transparent default-secondary window packed">
+          <div class="stack">
+            <div><strong>Packed spacing</strong></div>
+            <div class="small">This stack uses packed spacing (--density: 0.1)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="sep"/>
+
+    <div class="section">
+      <h2>Recoloring</h2>
+      <div class="small">
+        Change only these three primitive groups in <span class="code inline">tokens.css</span>:
+        <span class="code inline">--ui-primary-*</span>, <span class="code inline">--ui-secondary-*</span>, <span class="code inline">--ui-contrast-*</span>.
+      </div>
+      <div class="small">
+        Everything else updates through <span class="code inline">.default-primary</span>, <span class="code inline">.default-secondary</span>, <span class="code inline">.default-contrast</span>.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Dark/Light mode switcher
+    (function() {
+      const modeButtons = document.querySelectorAll('[data-mode]');
+      const html = document.documentElement;
+      
+      // Get saved preference or default to 'preference'
+      let currentMode = localStorage.getItem('color-scheme') || 'preference';
+      
+      function applyMode(mode) {
+        currentMode = mode;
+        localStorage.setItem('color-scheme', mode);
+        
+        // Update button states
+        modeButtons.forEach(btn => {
+          if (btn.getAttribute('data-mode') === mode) {
+            btn.classList.add('selected');
+          } else {
+            btn.classList.remove('selected');
+          }
+        });
+        
+        // Apply mode to document
+        if (mode === 'preference') {
+          html.removeAttribute('data-color-scheme');
+        } else {
+          html.setAttribute('data-color-scheme', mode);
+        }
+      }
+      
+      // Initialize
+      applyMode(currentMode);
+      
+      // Handle button clicks
+      modeButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const mode = this.getAttribute('data-mode');
+          applyMode(mode);
+          e.stopPropagation();
+        });
+      });
+    })();
+
+    // Interactive menu/slider material/finish/shape selector + copy helper
+    (function() {
+      const menu = document.querySelector('.menu.surface');
+      const slider = document.querySelector('.slider');
+      const copyTextEl = document.getElementById('class-copy-text');
+      const copyBtn = document.getElementById('copy-class-btn');
+      if (!menu) return;
+
+      const toClassString = (el) => {
+        if (!el) return '';
+        const excludeClasses = ['menu', 'surface', 'overlay'];
+        const all = Array.from(el.classList).filter(
+          (cls) => !excludeClasses.includes(cls)
+        );
+
+        const finishesOrder = [
+          'transparent', 'milky', 'tinted', 'liquid', 'water',
+          'metallic', 'polished', 'frosted', 'glossy',
+          'anodized', 'etched', 'trimmed', 'banded', 'flat'
+        ];
+        const densityOrder = ['dense', 'packed'];
+        const bloomOrder = ['bloom-weak', 'bloom-mild', 'bloom-strong'];
+        const materialsOrder = [
+          'default-primary', 'default-secondary', 'default-contrast',
+          'onyx', 'jade', 'emerald', 'sapphire', 'ruby', 'gold', 'topaz',
+          'diamond', 'copper', 'silver', 'carbon', 'glass',
+          'amber', 'amethyst', 'matrix', 'black-hole', 'tron', 'scifi'
+        ];
+        const shapesOrder = [
+          'pill', 'round', 'window', 'tile', 'gem',
+          'plaque', 'chevron-start', 'chevron-middle'
+        ];
+
+        const pickInOrder = (order) => all.filter((c) => order.includes(c));
+
+        const finish = pickInOrder(finishesOrder);
+        const density = pickInOrder(densityOrder);
+        const bloom = pickInOrder(bloomOrder);
+        const material = pickInOrder(materialsOrder);
+        const shape = pickInOrder(shapesOrder);
+
+        const used = new Set([...finish, ...density, ...bloom, ...material, ...shape]);
+        const rest = all.filter((c) => !used.has(c));
+
+        return [...finish, ...density, ...bloom, ...material, ...shape, ...rest]
+          .join(' ')
+          .trim();
+      };
+      const updateClassCopy = () => {
+        if (!copyTextEl || !menu) return;
+        copyTextEl.textContent = toClassString(menu);
+      };
+
+      if (copyBtn && copyTextEl) {
+        copyBtn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const text = copyTextEl.textContent || '';
+          if (!text) return;
+          try {
+            await navigator.clipboard.writeText(text);
+            copyBtn.classList.add('selected');
+            setTimeout(() => copyBtn.classList.remove('selected'), 800);
+          } catch (err) {
+            console.warn('Clipboard write failed', err);
+          }
+        });
+      }
+
+      // Material classes (from materials.css)
+      const materials = [
+        'default-primary', 'default-secondary', 'default-contrast',
+        'onyx', 'jade', 'emerald', 'sapphire', 'ruby', 'gold', 'topaz',
+        'diamond', 'copper', 'silver', 'carbon', 'glass',
+        'amber', 'amethyst', 'matrix', 'black-hole', 'tron', 'scifi'
+      ];
+
+      // Finish classes (from finishes.css)
+      const finishes = [
+        'transparent', 'milky', 'tinted', 'liquid', 'water', 'metallic', 'polished', 'frosted', 'glossy', 'anodized', 'etched', 'trimmed', 'banded', 'flat'
+      ];
+
+      // Shape classes (from shapes.css)
+      const shapes = ['pill', 'round', 'window', 'tile', 'gem', 'plaque', 'chevron-start', 'chevron-middle'];
+
+      function extractMaterialFinishAndShape(element) {
+        const classes = element.className.split(/\s+/);
+        const material = classes.find(c => materials.includes(c));
+        const finish = classes.find(c => finishes.includes(c));
+        const shape = classes.find(c => shapes.includes(c));
+        return { material, finish, shape };
+      }
+
+      function updateElementMaterial(element, material) {
+        if (!element || !material || !materials.includes(material)) return;
+
+        // Remove existing material classes
+        materials.forEach(m => element.classList.remove(m));
+
+        // Add new material
+        element.classList.add(material);
+        updateClassCopy();
+      }
+
+      function updateElementFinish(element, finish) {
+        if (!element || !finish || !finishes.includes(finish)) return;
+
+        // Remove existing finish classes
+        finishes.forEach(f => element.classList.remove(f));
+
+        // Add new finish
+        element.classList.add(finish);
+        updateClassCopy();
+      }
+
+      function updateElementShape(element, shape) {
+        if (!element) return;
+
+        // Always remove existing shape classes first
+        shapes.forEach(s => element.classList.remove(s));
+
+        // Force reflow to ensure browser processes the removal
+        void element.offsetHeight;
+
+        // Add new shape only if provided and valid
+        if (shape && shapes.includes(shape)) {
+          element.classList.add(shape);
+        }
+
+        // Force reflow again to ensure browser processes the addition
+        void element.offsetHeight;
+        updateClassCopy();
+      }
+
+      // Handle finish badge clicks (chips with data-finish attribute)
+      document.querySelectorAll('[data-finish]').forEach(badge => {
+        badge.style.cursor = 'pointer';
+        badge.addEventListener('click', function(e) {
+          const finish = this.getAttribute('data-finish');
+          if (finish) {
+            updateElementFinish(menu, finish);
+            if (slider) {
+              updateElementFinish(slider, finish);
+            }
+            e.stopPropagation();
+          }
+        });
+      });
+
+      // Handle bloom badge clicks (chips with data-bloom attribute)
+      function updateElementBloom(element, bloom) {
+        if (!element) return;
+
+        // Remove existing bloom classes
+        element.classList.remove('bloom-weak', 'bloom-mild', 'bloom-strong');
+
+        // Add new bloom class (or none if "none")
+        if (bloom && bloom !== 'none') {
+          element.classList.add(bloom);
+        }
+        updateClassCopy();
+      }
+
+      document.querySelectorAll('[data-bloom]').forEach(badge => {
+        badge.style.cursor = 'pointer';
+        badge.addEventListener('click', function(e) {
+          const bloom = this.getAttribute('data-bloom');
+          if (bloom !== null) {
+            // Ensure menu is found (it might be inside a closed details)
+            const menuElement = document.querySelector('.menu.surface') || menu;
+            if (menuElement) {
+              updateElementBloom(menuElement, bloom);
+            }
+            if (slider) {
+              updateElementBloom(slider, bloom);
+            }
+            e.stopPropagation();
+          }
+        });
+      });
+
+      // Handle density badge clicks (chips with data-density attribute)
+      function updateElementDensity(element, density) {
+        if (!element) return;
+
+        // Remove existing density classes
+        element.classList.remove('dense', 'packed');
+
+        // Add new density class (or none if "default")
+        if (density && density !== 'default') {
+          element.classList.add(density);
+        }
+        updateClassCopy();
+      }
+
+      document.querySelectorAll('[data-density]').forEach(badge => {
+        badge.style.cursor = 'pointer';
+        badge.addEventListener('click', function(e) {
+          const density = this.getAttribute('data-density');
+          if (density !== null) {
+            // Ensure menu is found (it might be inside a closed details)
+            const menuElement = document.querySelector('.menu.surface') || menu;
+            if (menuElement) {
+              updateElementDensity(menuElement, density);
+            }
+            e.stopPropagation();
+          }
+        });
+      });
+
+      // Handle material chip clicks (only update material, not shape)
+      // Find the Materials section and its chips
+      const materialsSection = Array.from(document.querySelectorAll('h2')).find(h2 => h2.textContent.trim() === 'Materials');
+      if (materialsSection) {
+        const materialsCluster = materialsSection.nextElementSibling;
+        if (materialsCluster && (materialsCluster.classList.contains('cluster') || materialsCluster.classList.contains('cluster-row'))) {
+          materialsCluster.querySelectorAll('.chip').forEach(chip => {
+            chip.style.cursor = 'pointer';
+            chip.addEventListener('click', function(e) {
+              const { material } = extractMaterialFinishAndShape(this);
+              if (material) {
+                updateElementMaterial(menu, material);
+                if (slider) updateElementMaterial(slider, material);
+                e.stopPropagation();
+              }
+            });
+          });
+        }
+      }
+
+      // Handle shape button clicks (only update shape, not material)
+      // Find the Shapes section and its buttons
+      const shapesSection = Array.from(document.querySelectorAll('h2')).find(h2 => h2.textContent.trim() === 'Shapes');
+      if (shapesSection) {
+        const shapesCluster = shapesSection.nextElementSibling;
+        if (shapesCluster && (shapesCluster.classList.contains('cluster') || shapesCluster.classList.contains('cluster-row'))) {
+          shapesCluster.querySelectorAll('.button').forEach(button => {
+            button.style.cursor = 'pointer';
+            button.addEventListener('click', function(e) {
+              const { shape } = extractMaterialFinishAndShape(this);
+              updateElementShape(menu, shape);
+              if (slider) updateElementShape(slider, shape);
+              e.stopPropagation();
+            });
+          });
+        }
+      }
+
+      // Handle other interactive elements (surfaces, etc.) - only update material, not shape
+      document.querySelectorAll('.surface:not(.menu):not(.slider)').forEach(surface => {
+        surface.style.cursor = 'pointer';
+        surface.addEventListener('click', function(e) {
+          if (this.closest('.menu')) return;
+          
+          const { material } = extractMaterialFinishAndShape(this);
+          if (material) {
+            updateElementMaterial(menu, material);
+            if (slider) updateElementMaterial(slider, material);
+            e.stopPropagation();
+          }
+        });
+      });
+
+      // Add visual feedback hint
+      const dropdownContainer = menu.closest('.cluster');
+      if (dropdownContainer) {
+        const hint = document.createElement('div');
+        hint.className = 'small';
+        hint.style.marginTop = 'var(--space-2)';
+        hint.style.opacity = '0.7';
+        hint.textContent = '💡 Click any button, chip, or surface to apply its material, finish, and shape to the menu and slider';
+        dropdownContainer.parentElement.insertBefore(hint, dropdownContainer.nextSibling);
+      }
+
+      // Initialize copy box with current menu classes
+      updateClassCopy();
+    })();
+  </script>
+</body>
+</html>

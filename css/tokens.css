@@ -1,0 +1,250 @@
+/* vxs-ui-kit/tokens.css
+   Global design tokens + defaults.
+   - Prefer rem/clamp for scalable rhythm.
+   - Use px only for non-scaling geometry (corner cuts, rim thickness).
+   - Recolor primitives are H S L triples (no commas).
+*/
+
+:root{
+  /* Base text tokens (triples) */
+  --ui-text-on-dark: 0 0% 92%;
+  --ui-text-on-light: 0 0% 12%;
+
+  /* Numeric 0..100; keep it manual */
+  /* Light mode: light background */
+  --app-bg-l: 92;
+
+  /* Threshold */
+  --mat-cut: 50;
+
+  /* Dark mode preference: 'dark', 'light', or 'preference' (browser default) */
+  --color-scheme: preference;
+
+  /* Typography */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'Courier New', 'Courier', monospace;
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.8125rem;   /* 13px */
+  --text-md: 0.875rem;    /* 14px */
+  --text-lg: 1rem;        /* 16px */
+  
+
+  /* Density (1 = default). Apply .dense on any container to reduce rhythm. */
+  --density: 1;
+
+  /* Spacing: one unit drives all steps */
+  --space-unit: clamp(0.75rem, 0.65rem + 0.25vw, 1rem);
+  --space-1: calc(var(--space-unit) * 0.50 * var(--density));
+  --space-2: calc(var(--space-unit) * 0.83 * var(--density));
+  --space-3: calc(var(--space-unit) * 1.17 * var(--density));
+  --space-4: calc(var(--space-unit) * 1.50 * var(--density));
+  --space-5: calc(var(--space-unit) * 2.00 * var(--density));
+  --space-6: calc(var(--space-unit) * 2.67 * var(--density));
+
+  /* Radii */
+  --radius-unit: clamp(0.5rem, 0.45rem + 0.15vw, 0.875rem);
+  --radius-xs: calc(var(--radius-unit) * 0.75);
+  --radius-sm: calc(var(--radius-unit) * 1.00);
+  --radius-md: calc(var(--radius-unit) * 1.35);
+  --radius-lg: calc(var(--radius-unit) * 1.75);
+  --radius-pill: 999px;
+
+  /* Elevation (shadow alpha) */
+  --shadow-1: 0.18;
+  --shadow-2: 0.28;
+  --shadow-3: 0.38;
+
+  /* Motion */
+  --curve: cubic-bezier(0.4, 0.0, 0.2, 1);
+  --dur-1: 160ms;
+  --dur-2: 240ms;
+
+  /* Geometry (facets) */
+  --cut: 12px;  /* corner cut */
+  --b: 3px;     /* rim thickness */
+
+  /* App background (demo) - light mode defaults */
+  --app-bg: 225 18% 92%;
+  --app-fg: 0 0% 12%;
+  --app-muted: 0 0% 30%;
+
+  /* === Recolor primitives === */
+  --ui-primary-top:    280 90% 80%;
+  --ui-primary-bottom: 175 70% 68%;
+  --ui-primary-text:   0 0% 92%;
+
+  --ui-secondary-top:    210 80% 78%;
+  --ui-secondary-bottom: 220 65% 66%;
+  --ui-secondary-text:   0 0% 92%;
+
+  --ui-contrast-top:    0 0% 85%;
+  --ui-contrast-bottom: 0 0% 62%;
+  --ui-contrast-text:   0 0% 10%;
+
+  /* Focus */
+  --focus-ring: 0.45;
+
+  /* Scrollbars */
+  --scrollbar-size: 12px;
+  --scrollbar-radius: 999px;
+  --scrollbar-bg: hsl(0 0% 0% / .25);
+
+  /* Component sizing defaults */
+  --btn-h: clamp(2.5rem, 2.35rem + 0.35vw, 3rem);
+  --btn-px: var(--space-4);
+  --btn-gap: var(--space-2);
+
+  --chip-h: clamp(1.75rem, 1.65rem + 0.25vw, 2rem);
+  --chip-px: var(--space-3);
+  --chip-gap: var(--space-1);
+
+  --seg-pad: 2px;
+  --seg-item-py: calc(var(--space-1) * 0.9);
+  --seg-item-px: var(--space-3);
+  --seg-gap: 2px;
+
+  --slider-w: clamp(16rem, 30vw, 28rem);
+  --slider-gap: var(--space-2);
+
+  /* Layout rhythm */
+  --stack-gap: var(--space-4);
+  --cluster-gap: var(--space-3);
+  --grid-gap: var(--space-5);
+}
+
+/* ===== Scrollbars ===== */
+
+/* Firefox */
+*{
+  scrollbar-width: thin;
+  scrollbar-color:
+    hsl(var(--mat-top, var(--ui-secondary-top)) / .45)
+    hsl(0 0% 0% / .25);
+}
+
+/* WebKit */
+*::-webkit-scrollbar{
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track{
+  background: var(--scrollbar-bg);
+  border-radius: var(--scrollbar-radius);
+}
+
+*::-webkit-scrollbar-thumb{
+  border-radius: var(--scrollbar-radius);
+  background: linear-gradient(180deg,
+    hsl(var(--mat-top, var(--ui-secondary-top)) / .55),
+    hsl(var(--mat-bottom, var(--ui-secondary-bottom)) / .45)
+  );
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover{
+  background: linear-gradient(180deg,
+    hsl(var(--mat-top, var(--ui-secondary-top)) / .75),
+    hsl(var(--mat-bottom, var(--ui-secondary-bottom)) / .65)
+  );
+}
+
+/* ===== Resize handle ===== */
+
+.resizable{
+  resize: both;
+  overflow: auto;
+  background-image:
+    linear-gradient(135deg,
+      transparent 75%,
+      hsl(var(--mat-top, var(--ui-secondary-top)) / .35) 75%,
+      hsl(var(--mat-top, var(--ui-secondary-top)) / .35) 80%,
+      transparent 80%
+    );
+  background-position: right bottom;
+  background-size: 14px 14px;
+  background-repeat: no-repeat;
+}
+
+/* ===== Density modifier ===== */
+
+.dense { --density: 0.5; }
+.packed { --density: 0.1; } 
+/* Universal density: affects padding-block/margin-block for ALL elements except .sep */
+.dense *:not(.sep), .packed *:not(.sep) {
+  padding-block: calc(var(--space-1, 0) * var(--density, 1)) !important; 
+  margin-block: calc(var(--space-1, 0) * var(--density, 1)) !important; 
+}
+/* Separator - excluded from density rules */
+.sep{
+  border: 0;
+  height: 2px;
+  width: 90%;
+  margin-inline: auto;
+  margin-block: 2px !important;
+  background: hsl(var(--mat-bottom) / 0.8);
+}
+
+/* ===== Dark mode support ===== */
+
+/* Dark mode: force dark theme */
+[data-color-scheme="dark"],
+.color-scheme-dark{
+  color-scheme: dark;
+  --color-scheme: dark;
+}
+
+/* Light mode: force light theme */
+[data-color-scheme="light"],
+.color-scheme-light{
+  color-scheme: light;
+  --color-scheme: light;
+}
+
+/* Preference: use browser/system preference */
+[data-color-scheme="preference"],
+.color-scheme-preference{
+  color-scheme: light dark;
+  --color-scheme: preference;
+}
+
+/* Default: use preference */
+:root{
+  color-scheme: light dark;
+}
+
+/* Dark mode */
+[data-color-scheme="dark"] {
+  --app-bg-l: 8;
+  --app-bg: 225 18% 8%;
+  --app-fg: 0 0% 92%;
+  --app-muted: 0 0% 70%;
+}
+
+/* Light mode */
+[data-color-scheme="light"] {
+  --app-bg-l: 92;
+  --app-bg: 225 18% 92%;
+  --app-fg: 0 0% 12%;
+  --app-muted: 0 0% 30%;
+}
+
+/* Browser preference (use prefers-color-scheme) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-color-scheme]) {
+    --app-bg-l: 8;
+    --app-bg: 225 18% 8%;
+    --app-fg: 0 0% 92%;
+    --app-muted: 0 0% 70%;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-color-scheme]) {
+    --app-bg-l: 92;
+    --app-bg: 225 18% 92%;
+    --app-fg: 0 0% 12%;
+    --app-muted: 0 0% 30%;
+  }
+}

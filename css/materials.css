@@ -1,0 +1,49 @@
+/* vxs-ui-kit/materials.css
+   Materials are aliases to recolor primitives (and optional demo gem materials).
+   Components read --mat-top/--mat-bottom/--mat-text.
+   Text color adapts based on background lightness and dark mode.
+*/
+
+.default-primary{
+  --mat-top:    var(--ui-primary-top);
+  --mat-bottom: var(--ui-primary-bottom);
+  --mat-top-l: 80; /* Extract from --ui-primary-top: 280 90% 80% */
+  --mat-bottom-l: 68; /* Extract from --ui-primary-bottom: 175 70% 68% */
+}
+
+.default-secondary{
+  --mat-top:    var(--ui-secondary-top);
+  --mat-bottom: var(--ui-secondary-bottom);
+  --mat-top-l: 78; /* Extract from --ui-secondary-top: 210 80% 78% */
+  --mat-bottom-l: 66; /* Extract from --ui-secondary-bottom: 220 65% 66% */
+}
+
+.default-contrast{
+  --mat-top:    var(--ui-contrast-top);
+  --mat-bottom: var(--ui-contrast-bottom);
+  --mat-top-l: 85; /* Extract from --ui-contrast-top: 0 0% 85% */
+  --mat-bottom-l: 62; /* Extract from --ui-contrast-bottom: 0 0% 62% */
+}
+
+/* Optional demo materials */
+.onyx     { --mat-top: 220 10% 28%; --mat-bottom: 220 15% 10%; --mat-top-l: 28; --mat-bottom-l: 10; }
+.jade     { --mat-top: 155 40% 70%; --mat-bottom: 160 35% 34%; --mat-top-l: 70; --mat-bottom-l: 34; }
+.emerald  { --mat-top: 145 65% 68%; --mat-bottom: 150 45% 24%; --mat-top-l: 68; --mat-bottom-l: 24; }
+.sapphire { --mat-top: 215 85% 72%; --mat-bottom: 220 60% 28%; --mat-top-l: 72; --mat-bottom-l: 28; }
+.ruby     { --mat-top: 355 75% 70%; --mat-bottom: 350 55% 22%; --mat-top-l: 70; --mat-bottom-l: 22; }
+.gold     { --mat-top: 48  100% 72%; --mat-bottom: 28  65% 26%; --mat-top-l: 72; --mat-bottom-l: 26; }
+.topaz    { --mat-top: 48  55% 74%; --mat-bottom: 48  45% 42%; --mat-top-l: 74; --mat-bottom-l: 42; }
+.diamond  { --mat-top: 210 15% 98%; --mat-bottom: 215 20% 92%; --mat-top-l: 98; --mat-bottom-l: 92; }
+.copper   { --mat-top: 25  85% 55%; --mat-bottom: 20  75% 32%; --mat-top-l: 55; --mat-bottom-l: 32; }
+.silver   { --mat-top: 210 8% 88%; --mat-bottom: 215 15% 55%; --mat-top-l: 88; --mat-bottom-l: 55; }
+.carbon   { --mat-top: 0 0% 18%; --mat-bottom: 0 0% 8%; --mat-top-l: 18; --mat-bottom-l: 8; }
+.glass    { --mat-top: 200 8% 97%; --mat-bottom: 205 15% 91%; --mat-top-l: 97; --mat-bottom-l: 91; }
+.amber    { --mat-top: 38 85% 48%; --mat-bottom: 32 75% 22%; --mat-top-l: 48; --mat-bottom-l: 22; }
+.amethyst { --mat-top: 280 60% 70%; --mat-bottom: 285 70% 35%; --mat-top-l: 70; --mat-bottom-l: 35; }
+.matrix   { --mat-top: 130 90% 46%; --mat-bottom: 130 100% 18%; --mat-top-l: 46; --mat-bottom-l: 18; }
+.black-hole{ --mat-top: 240 30% 4%; --mat-bottom: 260 40% 2%; --mat-top-l: 4; --mat-bottom-l: 2; }
+.tron     { --mat-top: 190 100% 50%; --mat-bottom: 200 100% 25%; --mat-top-l: 50; --mat-bottom-l: 25; }
+.scifi    { --mat-top: 320 100% 60%; --mat-bottom: 180 100% 40%; --mat-top-l: 60; --mat-bottom-l: 40; }
+
+/* If you ever want to force text for a material, you still can: */
+/* .sapphire { --mat-text: 0 0% 12%; } */

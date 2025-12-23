@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surfaces Mapper - Sample</title>
+  
+  <!-- Surfaces CSS -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/materials.css">
+  <link rel="stylesheet" href="css/finishes.css">
+  <link rel="stylesheet" href="css/shapes.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/demo.css">
+  
+  <style>
+    body {
+      padding: 2rem;
+      background: hsl(var(--app-bg));
+      color: hsl(var(--app-fg));
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+
+    .custom-class {
+      --mat-top: 280 90% 80%;
+      --mat-bottom: 175 70% 68%;
+      --mat-top-l: 80;
+      --mat-bottom-l: 68;
+      border: 2px solid hsl(var(--app-muted) / 0.2);
+    }
+    
+    .demo-section {
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: hsl(var(--app-bg));
+      border: 1px solid hsl(var(--app-muted) / 0.2);
+      border-radius: 8px;
+    }
+    
+    .header-actions {
+      width: auto;
+      grid-auto-flow: column;
+      grid-auto-columns: max-content;
+      justify-content: end;
+    }
+    
+    .demo-section h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: hsl(var(--app-fg));
+    }
+    
+    .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .code {
+      margin-top: 0.5rem !important;
+    }
+    
+    .code::before {
+      content: 'in DOM: ';
+      color: hsl(var(--app-muted));
+      font-weight: 600;
+      display: inline-block;
+      padding-right: 0.5rem;
+      white-space: nowrap;
+    }
+    
+    .code.after::before {
+      content: 'Maps to: ';
+      color: hsl(120 60% 60%);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; gap: 1rem; flex-wrap: wrap;">
+      <div>
+        <h1 style="margin: 0 0 0.5rem;">Surfaces Mapper - Sample</h1>
+        <p class="lead" style="margin: 0;">
+          This page demonstrates the surfaces mapping system. Elements with <code>data-surface</code> attributes are automatically converted to class combinations.
+        </p>
+        <hr>
+        <a class="button polished onyx pill hoverable" href="showcase.html"><span>Open Showcase</span></a>
+      </div>
+      <div class="cluster header-actions" style="margin: 0;">
+        <button class="button transparent default-secondary pill hoverable" data-mode="light" title="Light mode"><span>☀️ Light</span></button>
+        <button class="button transparent default-secondary pill hoverable" data-mode="dark" title="Dark mode"><span>🌙 Dark</span></button>
+        <button class="button transparent default-secondary pill hoverable" data-mode="preference" title="Browser preference"><span>💻 Auto</span></button>
+      </div>
+    </div>
+
+  <!-- Buttons Section -->
+  <section class="demo-section">
+    <h2>Buttons</h2>
+    <div class="demo-grid">
+      <button data-surface="ok-button">
+        <span>OK</span>
+      </button>
+      
+      <button data-surface="cancel-button">
+        <span>Cancel</span>
+      </button>
+      
+      <button data-surface="delete-button">
+        <span>Delete</span>
+      </button>
+      
+      <button data-surface="upgrade-button">
+        <span>Upgrade</span>
+      </button>
+      
+      <button data-surface="glass-button">
+        <span>Disabled</span>
+      </button>
+      
+      <button data-surface="fancy-button">
+        <span>Fancy</span>
+      </button>
+    </div>
+    
+    <div data-surface="code">&lt;button data-surface="ok-button"&gt;OK&lt;/button&gt;</div>
+    <div data-surface="code" class="after">&lt;button class="button flat sapphire plaque hoverable"&gt;OK&lt;/button&gt;</div>
+  </section>
+
+  <!-- Chips/Tags Section -->
+  <section class="demo-section">
+    <h2>Chips & Tags</h2>
+    <div class="demo-grid">
+      <button data-surface="tag">
+        <span>Tag</span>
+      </button>
+      
+      <button data-surface="badge">
+        <span>Badge</span>
+      </button>
+      
+      <button data-surface="premium-badge">
+        <span>Premium</span>
+      </button>
+      
+      <button data-surface="label">
+        <span>Label</span>
+      </button>
+    </div>
+    
+    <div data-surface="code">&lt;button data-surface="tag"&gt;Tag&lt;/button&gt;</div>
+    <div data-surface="code" class="after">&lt;button class="chip milky sapphire pill hoverable"&gt;Tag&lt;/button&gt;</div>
+  </section>
+
+  <!-- Cards Section -->
+  <section class="demo-section">
+    <h2>Cards</h2>
+    <div class="demo-grid">
+      <div data-surface="card">
+        <h3>Standard Card</h3>
+        <p>This is a standard card with default styling.</p>
+      </div>
+      
+      <div data-surface="glass-card">
+        <h3>Glass Card</h3>
+        <p>Transparent glass effect card.</p>
+      </div>
+      
+      <div data-surface="premium-card">
+        <h3>Premium Card</h3>
+        <p>Gold metallic premium card.</p>
+      </div>
+    </div>
+    
+    <div data-surface="code">&lt;div data-surface="card"&gt;...&lt;/div&gt;</div>
+    <div data-surface="code" class="after">&lt;div class="surface card transparent default-secondary window"&gt;...&lt;/div&gt;</div>
+  </section>
+
+  <!-- Dialogs Section -->
+  <section class="demo-section">
+    <h2>Dialogs & Modals</h2>
+    <div class="demo-grid">
+      <div data-surface="dialog" style="max-width: 300px;">
+        <h3>Dialog</h3>
+        <p>Standard dialog with overlay effect.</p>
+      </div>
+      
+      <div data-surface="modal" style="max-width: 300px;">
+        <h3>Modal</h3>
+        <p>Dark modal with tinted glass.</p>
+      </div>
+      
+      <div data-surface="popover" style="max-width: 250px;">
+        <h3>Popover</h3>
+        <p>Small popover menu.</p>
+      </div>
+    </div>
+    
+    <div data-surface="code">&lt;div data-surface="dialog"&gt;...&lt;/div&gt;</div>
+    <div data-surface="code" class="after">&lt;div class="surface dialog frosted default-secondary window overlay"&gt;...&lt;/div&gt;</div>
+  </section>
+
+  <!-- Multiple Mappings Section -->
+  <section class="demo-section">
+    <h2>Multiple Mappings</h2>
+    <p>You can combine multiple semantic names:</p>
+      <button data-surface="ok-button primary-button">
+        <span>Combined</span>
+      </button>
+    
+    <div data-surface="code">&lt;button data-surface="ok-button primary-button"&gt;Combined&lt;/button&gt;</div>
+    <div data-surface="code" class="after">&lt;button class="button polished default-primary pill hoverable"&gt;Combined&lt;/button&gt;</div>
+    <p><small>Note: Duplicate classes are automatically deduplicated.</small></p>
+  </section>
+
+  <!-- Preserve Existing Classes Section -->
+  <section class="demo-section">
+    <h2>Preserve Existing Classes</h2>
+    <p>Existing classes are preserved when mapping:</p>
+    <button data-surface="ok-button" class="custom-class">
+      <span>With Custom Class</span>
+    </button>
+    
+    <div data-surface="code">&lt;button class="custom-class" data-surface="ok-button"&gt;...&lt;/button&gt;</div>
+    <div data-surface="code" class="after">&lt;button class="custom-class button polished default-primary pill hoverable"&gt;...&lt;/button&gt;</div>
+  </section>
+
+  <!-- Dynamic Content Section -->
+  <section class="demo-section">
+    <h2>Dynamic Content</h2>
+    <p>New elements added dynamically are automatically processed:</p>
+    <button id="add-dynamic" class="button polished default-primary pill hoverable">
+      <span>Add Dynamic Button</span>
+    </button>
+    <div id="dynamic-container" style="margin-top: 1rem;"></div>
+  </section>
+</div>
+  <!-- Load the mapper -->
+  <script type="module">
+    // Import the minified mapper and mappings
+    import { init, processElement } from './js/surfaces-mapper.min.js';
+    import { surfacesMappings } from './js/mappings.min.js';
+    
+    // Initialize the mapper with mappings parameter
+    init(surfacesMappings, {
+      removeAttribute: false, // Keep data-surface attribute for debugging
+      preserveExisting: true
+    });
+    
+    // Demo: Add dynamic content
+    document.getElementById('add-dynamic').addEventListener('click', () => {
+      const container = document.getElementById('dynamic-container');
+      const button = document.createElement('button');
+      button.setAttribute('data-surface', 'glass-button');
+      button.innerHTML = '<span>Dynamic Button</span>';
+      container.appendChild(button);
+      
+      // The mapper will automatically process it via MutationObserver
+      // But we can also manually process if needed:
+      // processElement(button, surfacesMappings);
+    });
+    
+    console.log('Surfaces Mapper initialized');
+  </script>
+
+  <script>
+    // Dark/Light mode switcher
+    (function() {
+      const modeButtons = document.querySelectorAll('[data-mode]');
+      const html = document.documentElement;
+      
+      // Get saved preference or default to 'preference'
+      let currentMode = localStorage.getItem('color-scheme') || 'preference';
+      
+      function applyMode(mode) {
+        currentMode = mode;
+        localStorage.setItem('color-scheme', mode);
+        
+        // Update button states
+        modeButtons.forEach(btn => {
+          if (btn.getAttribute('data-mode') === mode) {
+            btn.classList.add('selected');
+          } else {
+            btn.classList.remove('selected');
+          }
+        });
+        
+        // Apply mode to document
+        if (mode === 'preference') {
+          html.removeAttribute('data-color-scheme');
+        } else {
+          html.setAttribute('data-color-scheme', mode);
+        }
+      }
+      
+      // Initialize
+      applyMode(currentMode);
+      
+      // Handle button clicks
+      modeButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          const mode = this.getAttribute('data-mode');
+          applyMode(mode);
+          e.stopPropagation();
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+

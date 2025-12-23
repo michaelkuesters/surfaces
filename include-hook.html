@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surfaces Include Hook</title>
+
+  <!-- Minimal Surfaces CSS -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/materials.css">
+  <link rel="stylesheet" href="css/finishes.css">
+  <link rel="stylesheet" href="css/shapes.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/layout.css">
+</head>
+<body style="padding: 1.5rem; background: hsl(var(--app-bg)); color: hsl(var(--app-fg)); font-family: system-ui, -apple-system, sans-serif;">
+  <h1 style="margin: 0 0 1rem;">Surfaces Include Hook (Minimal)</h1>
+  <p style="margin: 0 0 1.25rem;">This page shows the minimum viable wiring to use <code>mappings.js</code> with <code>data-surface</code> attributes.</p>
+
+  <div class="cluster" style="margin: 0 0 1rem;">
+    <button data-surface="primary-button"><span>Primary</span></button>
+    <button data-surface="cancel-button"><span>Cancel</span></button>
+    <button data-surface="glass-button"><span>Disabled</span></button>
+  </div>
+
+  <div data-surface="card" style="max-width: 360px;">
+    <h3>Card via Mapping</h3>
+    <p>Uses <code>data-surface="card"</code> and the mapping table.</p>
+  </div>
+
+  <script type="module">
+    import { init } from './js/surfaces-mapper.min.js';
+    import { surfacesMappings } from './js/mappings.min.js';
+
+    init(surfacesMappings, {
+      removeAttribute: false,
+      preserveExisting: true
+    });
+  </script>
+</body>
+</html>
+

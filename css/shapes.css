@@ -1,0 +1,116 @@
+/* vxs-ui-kit/shapes.css
+   Shapes define geometry. Rounded shapes use border-radius.
+   Faceted shapes use clip-path polygons.
+*/
+
+.pill{
+  --radius: var(--radius-pill);
+  --radius-inner: var(--radius-pill);
+  --shape: none;
+  --shape-inner: none;
+}
+
+.round{
+  --radius: var(--radius-md);
+  --radius-inner: calc(var(--radius-md) - 3px);
+  --shape: none;
+  --shape-inner: none;
+}
+
+.window{
+  --radius: var(--radius-lg);
+  --radius-inner: calc(var(--radius-lg) - 4px);
+  --shape: none;
+  --shape-inner: none;
+}
+
+.tile{
+  --radius: var(--radius-xs);
+  --radius-inner: calc(var(--radius-xs) - 2px);
+  --shape: none;
+  --shape-inner: none;
+}
+
+/* Faceted gem */
+.gem{
+  --radius: 0;
+  --radius-inner: 0;
+
+  /* Outer / inner shapes (use --cut and --b from tokens) */
+  /* Faceted gem: 8 points with cut corners */
+  --shape: polygon(
+    12px 0,
+    calc(100% - 12px) 0,
+    100% 12px,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    12px 100%,
+    0 calc(100% - 12px),
+    0 12px
+  );
+
+  --shape-inner: polygon(
+    9px 0,
+    calc(100% - 9px) 0,
+    100% 9px,
+    100% calc(100% - 9px),
+    calc(100% - 9px) 100%,
+    9px 100%,
+    0 calc(100% - 9px),
+    0 9px
+  );
+}
+
+/* Sharp rectangular corners (no cutouts, no rounding) */
+.plaque{
+  --radius: 0;
+  --radius-inner: 0;
+  --shape: none;
+  --shape-inner: none;
+}
+
+/* Chevron-start: straight left, chevron pointing right [=> */
+.chevron-start{
+  --radius: 0;
+  --radius-inner: 0;
+  
+  --shape: polygon(
+    0 0,
+    calc(100% - 12px) 0,
+    100% 50%,
+    calc(100% - 12px) 100%,
+    0 100%
+  );
+  
+  --shape-inner: polygon(
+    0 0,
+    calc(100% - 11px) 0,
+    100% 50%,
+    calc(100% - 11px) 100%,
+    0 100%
+  );
+}
+
+/* Chevron-middle: chevrons on both sides pointing inward >=> */
+.chevron-middle{
+  --radius: 0;
+  --radius-inner: 0;
+  
+  --shape: polygon(
+    0 0,
+    9px 50%,
+    0 100%,
+    calc(100% - 12px) 100%,
+    100% 50%,
+    calc(100% - 12px) 0
+  );
+  
+  --shape-inner: polygon(
+    0 0,
+    9px 50%,
+    0 100%,
+    calc(100% - 11px) 100%,
+    calc(100%) 50%,
+    calc(100% - 11px) 0
+  );
+}

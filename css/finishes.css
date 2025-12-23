@@ -1,0 +1,445 @@
+/* vxs-ui-kit/finishes.css
+   Finishes define *optics* (not color). They operate on --mat-*.
+
+   Core rule: each finish must have a perceptual invariant.
+   - transparent: preserves background detail (low diffusion)
+   - milky: neutral diffusion (lighter, less color)
+   - tinted: visible hue bias (more color, medium diffusion)
+   - liquid: depth + pooling highlights (non-uniform)
+   - water: clear-to-deep depth gradient (top clearer, bottom denser)
+
+   Overlay context:
+   Popovers/dialogs must stay readable over busy backgrounds.
+   Finishes provide overlay recommendations via --overlay-*.
+*/
+
+/* =========================
+   Shared: common patterns
+   ========================= */
+
+/* Base color variables for relative color syntax */
+:where(.metallic, .polished, .glossy, .trimmed, .transparent, .milky, .tinted, .liquid, .water, .frosted, .banded, .flat){
+  --mat-top-color: hsl(var(--mat-top) / 1);
+  --mat-bottom-color: hsl(var(--mat-bottom) / 1);
+}
+
+/* Opaque rim gradient (fully opaque) */
+:where(.metallic, .polished, .glossy, .trimmed){
+  --rim-bg-opaque: linear-gradient(160deg,
+    var(--mat-top-color),
+    var(--mat-bottom-color)
+  );
+}
+
+/* Common opaque finish settings */
+:where(.metallic, .polished, .glossy, .trimmed){
+  --sample-page: 0;
+  --finish-lightness-mod: 0;
+  --overlay-blur: 0px;
+  --overlay-sat: 100%;
+  --overlay-scrim-a: 0;
+  --overlay-scrim-b: 0;
+}
+
+/* Common transparent glass settings */
+:where(.transparent, .tinted, .liquid, .water){
+  --sample-page: 1;
+  --finish-lightness-mod: 0;
+  --transparency-factor: 0;
+}
+
+/* Common texture settings */
+:where(.anodized, .etched){
+  --sample-page: 1;
+  --finish-lightness-mod: 30;
+  --transparency-factor: 0.3;
+}
+
+/* Common overlay settings for banded/flat */
+:where(.banded, .flat){
+  --overlay-blur: 0px;
+  --overlay-sat: 100%;
+  --overlay-scrim-a: .28;
+  --overlay-scrim-b: .40;
+}
+
+/* ---------- Transparent (preserve detail) ---------- */
+.transparent{
+  /* 95% transparent - very minimal fill, no blur */
+  --rim-a: .05; --rim-b: .04;
+  --fill-a: .01; --fill-b: .02; --fill-c: .03;
+  --facet: .10;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 115%;
+  --shadow-a: var(--shadow-2);
+
+  /* Glass/translucent: sample page background */
+  --sample-page: 1;
+  --finish-lightness-mod: 0;
+  --transparency-factor: 0;
+
+  /* overlay: minimal scrim, no blur */
+  --overlay-blur: 0px;
+  --overlay-sat: 120%;
+  --overlay-scrim-a: .05;
+  --overlay-scrim-b: .08;
+}
+
+/* ---------- Milky (neutral diffusion; no heavy tint) ---------- */
+.milky{
+  /* 80% transparent - low fill, weak blur (was liquid) */
+  --rim-a: .08; --rim-b: .06;
+  --fill-a: .04; --fill-b: .06; --fill-c: .10;
+  --facet: .18;
+  --blur-outer: 2px;
+  --blur-inner: 8px;
+  --sat: 135%;
+  --shadow-a: var(--shadow-3);
+
+  /* multi-lobe highlight pool */
+  --fill-bg: 
+    radial-gradient(80% 120% at 18% 10%,  hsl(from var(--mat-top-color) h s l / .06), transparent 65%),
+    radial-gradient(90% 140% at 82% 30%,  hsl(from var(--mat-top-color) h s l / .04), transparent 70%),
+    radial-gradient(140% 160% at 50% 120%, hsl(from var(--mat-bottom-color) h s l / .08), transparent 62%),
+    radial-gradient(120% 140% at 20% 0%,
+      hsl(from var(--mat-top-color) h s l / var(--fill-a)),
+      hsl(from var(--mat-top-color) h s l / var(--fill-b)) 55%,
+      hsl(from var(--mat-bottom-color) h s l / var(--fill-c)) 100%
+    );
+
+  /* Glass/translucent: sample page background, but milky brightens it */
+  --sample-page: 1;
+  --finish-lightness-mod: 30;
+  --transparency-factor: 0.3;
+
+  /* overlay: light distortion (via blur) + slight blur */
+  --overlay-blur: 10px;
+  --overlay-sat: 140%;
+  --overlay-scrim-a: .10;
+  --overlay-scrim-b: .15;
+}
+
+/* ---------- Tinted (visible hue bias) ---------- */
+.tinted{
+  /* 98% transparent - very minimal, gradient with strong blur (was water) */
+  --rim-a: .02; --rim-b: .015;
+  --fill-a: .005; --fill-b: .01; --fill-c: .015;
+  --facet: .12;
+  --blur-outer: 0px;
+  --blur-inner: 4px;
+  --sat: 130%;
+  --shadow-a: var(--shadow-3);
+
+  --fill-bg:
+    /* caustic sheen - very transparent */
+    radial-gradient(120% 160% at 20% 0%, hsl(from var(--mat-top-color) h s l / .01), transparent 60%),
+    /* depth gradient - top clearer, bottom slightly denser */
+    linear-gradient(180deg,
+      hsl(from var(--mat-top-color) h s l / .005) 0%,
+      hsl(from var(--mat-top-color) h s l / .008) 40%,
+      hsl(from var(--mat-bottom-color) h s l / .015) 100%
+    );
+
+  /* Glass/translucent: sample page background */
+  --sample-page: 1;
+  --finish-lightness-mod: 0;
+  --transparency-factor: 0;
+
+  /* overlay: strong distortion effect (via very strong blur + saturation) */
+  --overlay-blur: 28px;
+  --overlay-sat: 180%;
+  --overlay-scrim-a: .02;
+  --overlay-scrim-b: .04;
+}
+
+/* ---------- Liquid (depth + pooled highlights) ---------- */
+.liquid{
+  /* 95% transparent - very minimal fill, strong blur (was milky, now more transparent) */
+  --rim-a: .03; --rim-b: .025;
+  --fill-a: .015; --fill-b: .02; --fill-c: .025;
+  --facet: .06;
+  --blur-outer: 3px;
+  --blur-inner: 2px;
+  --sat: 90%;
+  --shadow-a: var(--shadow-2);
+
+  /* enforce "milky" by partially neutralizing fill (less hue bias) */
+  --fill-bg: radial-gradient(120% 140% at 20% 0%,
+    hsl(0 0% 100% / .015),
+    hsl(0 0% 100% / .01) 55%,
+    hsl(0 0% 100% / .008) 100%
+  );
+
+  /* Glass/translucent: sample page background */
+  --sample-page: 1;
+  --finish-lightness-mod: 0;
+  --transparency-factor: 0;
+
+  /* overlay: strong blur for liquid effect */
+  --overlay-blur: 24px;
+  --overlay-sat: 110%;
+  --overlay-scrim-a: .05;
+  --overlay-scrim-b: .08;
+  --overlay-contrast: ;
+}
+
+
+/* Liquid finish: enhanced distortion for overlay contexts */
+.liquid.overlay::after{
+  --overlay-blur: 10px;
+  --overlay-sat: 140%;
+  --overlay-contrast: contrast(1.05);
+}
+
+
+/* ---------- Water (clear-to-deep gradient) ---------- */
+.water{
+  /* Very similar to transparent, just slightly blurred (1px) */
+  --rim-a: .05; --rim-b: .04;
+  --fill-a: .01; --fill-b: .02; --fill-c: .03;
+  --facet: .10;
+  --blur-outer: 1px;
+  --blur-inner: 1px;
+  --sat: 125%;
+  --shadow-a: var(--shadow-2);
+
+  /* Glass/translucent: sample page background */
+  --sample-page: 1;
+  --finish-lightness-mod: 0;
+  --transparency-factor: 0;
+
+  /* overlay: minimal scrim, slight blur */
+  --overlay-blur: 0.5px;
+  --overlay-sat: 120%;
+  --overlay-scrim-a: .05;
+  --overlay-scrim-b: .08;
+  --overlay-contrast: ;
+}
+
+
+/* Water finish: enhanced distortion for overlay contexts */
+.water.overlay::after{
+  --overlay-blur: 28px;
+  --overlay-sat: 180%;
+  --overlay-contrast: contrast(1.1);
+}
+
+/* ---------- Metallic (no diffusion, strong specular, fully opaque) ---------- */
+.metallic{
+  --rim-a: 1.0; --rim-b: 1.0;
+  --fill-a: .00; --fill-b: .00; --fill-c: .00;
+  --facet: .06;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 80%;
+  --shadow-a: var(--shadow-2);
+
+  /* Fully opaque rim - no transparency */
+  --rim-bg: var(--rim-bg-opaque);
+
+  /* Fully opaque metallic background with enhanced specular highlights */
+  --fill-bg: 
+    /* Bright specular highlight */
+    radial-gradient(60% 80% at 30% 20%, var(--mat-top-color), transparent 70%),
+    radial-gradient(50% 70% at 70% 30%, hsl(from var(--mat-top-color) h s l / 0.85), transparent 65%),
+    /* Base metallic gradient - enhanced contrast for visibility */
+    linear-gradient(135deg,
+      var(--mat-top-color),
+      hsl(from var(--mat-bottom-color) h s l / 0.60) 25%,
+      hsl(from var(--mat-bottom-color) h s l / 0.85) 50%,
+      hsl(from var(--mat-top-color) h s l / 0.70) 75%,
+      var(--mat-top-color) 100%
+    );
+
+  --overlay-sat: 90%;
+}
+
+/* ---------- Polished (diagonal gradient, fully opaque, no specular) ---------- */
+.polished{
+  --rim-a: 1.0; --rim-b: 1.0;
+  --fill-a: .00; --fill-b: .00; --fill-c: .00;
+  --facet: .00;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 100%;
+  --shadow-a: var(--shadow-2);
+
+  /* Fully opaque rim - no transparency */
+  --rim-bg: var(--rim-bg-opaque);
+
+  /* Diagonal gradient - enhanced contrast for visibility on light materials */
+  --fill-bg: linear-gradient(135deg,
+    var(--mat-top-color),
+    hsl(from var(--mat-bottom-color) h s l / 0.60) 25%,
+    hsl(from var(--mat-bottom-color) h s l / 0.85) 50%,
+    hsl(from var(--mat-top-color) h s l / 0.70) 75%,
+    var(--mat-top-color) 100%
+  );
+}
+
+/* ---------- Frosted (frosted glass, strong blur, neutral tint) ---------- */
+.frosted{
+  /* Medium transparency with strong blur and white/neutral tint */
+  --rim-a: .12; --rim-b: .10;
+  --fill-a: .15; --fill-b: .20; --fill-c: .25;
+  --facet: .08;
+  --blur-outer: 2px;
+  --blur-inner: 20px;
+  --sat: 95%;
+  --shadow-a: var(--shadow-2);
+
+  /* Frosted glass: white/neutral tint with strong blur */
+  --fill-bg: radial-gradient(120% 140% at 20% 0%,
+    hsl(0 0% 100% / .15),
+    hsl(0 0% 100% / .10) 55%,
+    hsl(0 0% 95% / .08) 100%
+  );
+
+  /* Glass/translucent: sample page background, frosted brightens it */
+  --sample-page: 1;
+  --finish-lightness-mod: 25;
+  --transparency-factor: 0.5;
+
+  /* overlay: strong blur for frosted effect */
+  --overlay-blur: 20px;
+  --overlay-sat: 100%;
+  --overlay-scrim-a: .20;
+  --overlay-scrim-b: .30;
+}
+
+/* ---------- Glossy (high shine, mirror-like reflections) ---------- */
+.glossy{
+  /* Fully opaque with strong specular highlights */
+  --rim-a: 1.0; --rim-b: 1.0;
+  --fill-a: .00; --fill-b: .00; --fill-c: .00;
+  --facet: .15;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 120%;
+  --shadow-a: var(--shadow-3);
+
+  /* Fully opaque rim */
+  --rim-bg: var(--rim-bg-opaque);
+
+  /* Glossy: multiple bright specular highlights for mirror-like effect */
+  --fill-bg: 
+    /* Primary mirror highlight */
+    radial-gradient(40% 60% at 25% 15%, var(--mat-top-color), transparent 50%),
+    radial-gradient(35% 50% at 75% 25%, hsl(from var(--mat-top-color) h s l / 0.9), transparent 55%),
+    /* Secondary reflections */
+    radial-gradient(50% 70% at 50% 50%, hsl(from var(--mat-top-color) h s l / 0.7), transparent 60%),
+    /* Base gradient */
+    linear-gradient(135deg,
+      var(--mat-top-color),
+      var(--mat-bottom-color) 45%,
+      var(--mat-top-color)
+    );
+
+  --overlay-sat: 120%;
+}
+
+/* ---------- Rimmed (duochrome gradient rim, flat inner fill) ---------- */
+.trimmed{
+  --rim-a: 1.0; --rim-b: 1.0;
+  --fill-a: 1.0; --fill-b: 1.0; --fill-c: 1.0;
+  --facet: .00;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 100%;
+  --shadow-a: var(--shadow-2);
+
+  /* Fully opaque rim with duochrome gradient (frame only) */
+  --rim-bg: var(--rim-bg-opaque);
+
+  /* Flat inner fill: single solid color */
+  --fill-bg: var(--mat-top-color);
+
+  /* Solid/opaque: sample material */
+  --sample-page: 0;
+  --finish-lightness-mod: 0;
+}
+
+/* ---------- Banded (gradient rim, flat inner fill) ---------- */
+.banded{
+  --rim-a: .18; --rim-b: .15;
+  --fill-a: .10; --fill-b: .12; --fill-c: .14;
+  --facet: .00;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 100%;
+  --shadow-a: var(--shadow-2);
+
+  /* Gradient rim: use material gradient */
+  --rim-bg: linear-gradient(160deg,
+    hsl(from var(--mat-top-color) h s l / var(--rim-a)),
+    hsl(from var(--mat-bottom-color) h s l / var(--rim-b))
+  );
+
+  /* Single flat color fill: use darker material color as solid (no gradient) */
+  --fill-bg: var(--mat-bottom-color);
+
+  /* IMPORTANT: banded fill uses mat-bottom, so sample bottom for text contrast */
+  --sample-page: 0;
+  --finish-lightness-mod: calc(var(--mat-bottom-l, var(--mat-top-l, 50)) - var(--mat-top-l, 50));
+}
+
+/* ---------- Flat (no diffusion, stable contrast, single flat color) ---------- */
+.flat{
+  --rim-a: .18; --rim-b: .15;
+  --fill-a: .10; --fill-b: .12; --fill-c: .14;
+  --facet: .00;
+  --blur-outer: 0px;
+  --blur-inner: 0px;
+  --sat: 100%;
+  --shadow-a: var(--shadow-1);
+
+  /* Single flat color rim: use darker material color as solid */
+  --rim-bg: var(--mat-bottom-color);
+
+  /* Single flat color fill: use darker material color as solid (no gradient) */
+  --fill-bg: var(--mat-bottom-color);
+
+  /* Override the L calculation to use mat-bottom-l directly */
+  --sample-page: 0;
+  --finish-lightness-mod: calc(var(--mat-bottom-l, var(--mat-top-l, 50)) - var(--mat-top-l, 50));
+}
+
+/* =========================
+   Textures (work on top of finishes)
+   ========================= */
+
+/* ---------- Anodized (colored metallic texture) ---------- */
+.anodized{
+  /* Anodized texture: fine parallel lines */
+  --texture-bg: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent 2px,
+    hsl(from var(--mat-top-color) h s l / 0.08) 2px,
+    hsl(from var(--mat-top-color) h s l / 0.08) 4px
+  );
+  /* Texture adds subtle lightening - adjust contrast calculation */
+  --sample-page: 1;
+  --finish-lightness-mod: 30;
+  --transparency-factor: 0.3;
+}
+
+/* ---------- Etched (frosted/etched glass texture) ---------- */
+.etched{
+  /* Etched texture: fine random dots/pattern */
+  --texture-bg: 
+    radial-gradient(circle at 20% 30%, hsl(0 0% 100% / 0.15) 1px, transparent 1px),
+    radial-gradient(circle at 60% 70%, hsl(0 0% 100% / 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 80% 20%, hsl(0 0% 100% / 0.10) 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, hsl(0 0% 100% / 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 10% 50%, hsl(0 0% 100% / 0.12) 1px, transparent 1px),
+    radial-gradient(circle at 90% 60%, hsl(0 0% 100% / 0.10) 1px, transparent 1px);
+  --texture-size: 8px 8px, 12px 12px, 6px 6px, 10px 10px, 14px 14px, 9px 9px;
+  --texture-position: 0 0, 2px 2px, 4px 4px, 1px 1px, 3px 3px, 5px 5px;
+  /* Texture adds white overlay dots - significant lightening, adjust contrast calculation */
+  --sample-page: 1;
+  --finish-lightness-mod: 30;
+  --transparency-factor: 0.3;
+}
+

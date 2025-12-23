@@ -1,0 +1,719 @@
+/* vxs-ui-kit/components.css
+   Components consume variables from materials/finishes/shapes/sizes/states.
+   They should not hardcode colors beyond neutral shadows.
+*/
+
+/* =========================
+   Shared: text contrast calculation
+   ========================= */
+
+:where(.button, .chip, .surface){
+  /* Finishes can set this: 0 = solid samples material, 1 = glass samples page bg */
+  --sample-page: var(--sample-page, 0);
+
+  /* For solid (sample-page=0): use material directly */
+  /* For glass (sample-page=1): use page background as base, but very light materials (>85) get boost */
+  /* Transparency factor reduces material boost for very transparent finishes */
+  --L: calc(
+    (1 - var(--sample-page)) * var(--mat-top-l, 50) +
+    (var(--sample-page) * calc(
+      var(--app-bg-l, 8) + 
+      clamp(0, var(--mat-top-l, 50) - 85, 15) * 3.0 * var(--transparency-factor, 1) +
+      clamp(0, var(--mat-top-l, 50) - 90, 8) * 2.5 * var(--transparency-factor, 1)
+    )) +
+    var(--finish-lightness-mod, 0) +
+    var(--texture-lightness-mod, 0)
+  );
+
+  --cut: var(--mat-cut, 55);
+  --is-bg-light: clamp(0, calc((var(--L) - var(--cut)) * 1000), 1);
+
+  --text-on-light: var(--ui-text-on-light);
+  --text-on-dark:  var(--ui-text-on-dark);
+
+  /* Fallback if color-mix unsupported */
+  --mat-text-color: hsl(var(--text-on-dark) / 1);
+}
+
+@supports (color: color-mix(in oklab, white, black)) {
+  :where(.button, .chip, .surface){
+    --mat-text-auto: color-mix(
+      in oklab,
+      hsl(var(--text-on-light) / 1) calc(var(--is-bg-light) * 100%),
+      hsl(var(--text-on-dark) / 1) calc((1 - var(--is-bg-light)) * 100%)
+    );
+
+    /* Override switch: only if someone explicitly sets it */
+    --mat-text-fixed: 0;
+    --mat-text-color: color-mix(
+      in oklab,
+      hsl(var(--mat-text, var(--ui-text-on-dark)) / 1) calc(var(--mat-text-fixed) * 100%),
+      var(--mat-text-auto) calc((1 - var(--mat-text-fixed)) * 100%)
+    );
+  }
+}
+
+/* =========================
+   Shared: base color variables (for relative color syntax)
+   ========================= */
+
+:where(.button, .chip, .surface){
+  /* Create base color variables from HSL triples */
+  --mat-top-color: hsl(var(--mat-top) / 1);
+  --mat-bottom-color: hsl(var(--mat-bottom) / 1);
+}
+
+/* =========================
+   Shared: bloom effects (gradient between mat-top and mat-bottom)
+   ========================= */
+
+:where(.button, .chip, .surface){
+  /* Gradient bloom: vertical gradient from mat-top (top) to mat-bottom (bottom), centered */
+  /* Use symmetric offsets to keep bloom centered - top shadows offset up, bottom shadows offset down */
+  --bloom-shadow-1: 0 calc(var(--bloom-spread, 0) * -0.4) var(--bloom-spread, 0) hsl(from var(--mat-top-color) h s l / var(--bloom-intensity, 0));
+  --bloom-shadow-2: 0 calc(var(--bloom-spread, 0) * -0.2) calc(var(--bloom-spread, 0) * 1.2) hsl(from var(--mat-top-color) h s l / calc(var(--bloom-intensity, 0) * 0.7));
+  --bloom-shadow-3: 0 calc(var(--bloom-spread, 0) * 0.2) calc(var(--bloom-spread, 0) * 1.5) hsl(from var(--mat-bottom-color) h s l / calc(var(--bloom-intensity, 0) * 0.7));
+  --bloom-shadow-4: 0 calc(var(--bloom-spread, 0) * 0.4) calc(var(--bloom-spread, 0) * 2) hsl(from var(--mat-bottom-color) h s l / calc(var(--bloom-intensity, 0) * 0.5));
+  --bloom-shadows: var(--bloom-shadow-1), var(--bloom-shadow-2), var(--bloom-shadow-3), var(--bloom-shadow-4);
+
+  /* Bloom filter (for wrapper elements) - vertical gradient from top to bottom, centered with symmetric offsets */
+  --bloom-filter: 
+    drop-shadow(0 calc(var(--bloom-spread, 0) * -0.3) var(--bloom-spread, 0) hsl(from var(--mat-top-color) h s l / var(--bloom-intensity, 0)))
+    drop-shadow(0 calc(var(--bloom-spread, 0) * 0.3) calc(var(--bloom-spread, 0) * 0.5) hsl(from var(--mat-bottom-color) h s l / calc(var(--bloom-intensity, 0) * 2.5)));
+
+  /* Inset shadows using relative color syntax */
+  --inset-shadow-top: inset 0 1px 0 hsl(from var(--mat-top-color) h s l / .18);
+  --inset-shadow-top-strong: inset 0 1px 0 hsl(from var(--mat-top-color) h s l / .22);
+  --inset-shadow-bottom: inset 0 -1px 0 hsl(0 0% 0% / .12);
+  --inset-shadows-base: var(--inset-shadow-top), var(--inset-shadow-bottom);
+  --inset-shadows-strong: var(--inset-shadow-top-strong), var(--inset-shadow-bottom);
+}
+
+/* =========================
+   Shared: gradient patterns
+   ========================= */
+
+:where(.button, .chip, .surface){
+  /* Use relative color syntax for gradients */
+  --rim-gradient: linear-gradient(160deg,
+    hsl(from var(--mat-top-color) h s l / var(--rim-a)),
+    hsl(from var(--mat-bottom-color) h s l / var(--rim-b))
+  );
+
+  /* Fill gradient for buttons/surfaces (radial) */
+  --fill-gradient-radial: radial-gradient(120% 140% at 20% 0%,
+    hsl(from var(--mat-top-color) h s l / var(--fill-a)),
+    hsl(from var(--mat-top-color) h s l / var(--fill-b)) 55%,
+    hsl(from var(--mat-bottom-color) h s l / var(--fill-c)) 100%
+  );
+
+  /* Fill gradient for chips (linear) */
+  --fill-gradient-linear: linear-gradient(180deg,
+    hsl(from var(--mat-top-color) h s l / var(--fill-b)),
+    hsl(from var(--mat-bottom-color) h s l / var(--fill-c))
+  );
+}
+
+/* =========================
+   Base: button and chip shared
+   ========================= */
+
+:where(.button, .chip){
+  --mat-top: var(--ui-primary-top);
+  --mat-bottom: var(--ui-primary-bottom);
+  /* Extract lightness from --ui-primary-top: 280 90% 80% */
+  --mat-top-l: 80;
+  --mat-bottom-l: 68;
+  /* Only as fallback override value, not as default preference */
+  --mat-text: var(--ui-text-on-dark);
+
+  --rim-a: .18; --rim-b: .12;
+  --fill-a: .03; --fill-b: .06; --fill-c: .14;
+  --facet: .22;
+  --blur-outer: 3px;
+  --blur-inner: 10px;
+  --sat: 90%;
+  --shadow-a: var(--shadow-2);
+
+  position: relative;
+  border: 0;
+  background: none;
+  padding: 0;
+  display: inline-flex;
+  min-width: 0;
+  font-family: var(--font-sans);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+
+  /* Apply outer shape to button element itself */
+  border-radius: var(--radius, 0);
+  clip-path: var(--shape, none);
+}
+
+/* Shared: inner span base properties */
+:where(.button, .chip) > span{
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--mat-text-color, hsl(var(--ui-text-on-dark) / 1));
+  
+  /* Sizing for grid/layout contexts */
+  width: calc(100% - calc(var(--span-margin-x, 0px) * 2));
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  
+  height: var(--btn-h);
+  padding: 0 var(--btn-px);
+  font-size: var(--btn-fs, var(--text-md));
+  margin: var(--span-margin-x, 0px);
+  border-radius: var(--radius-inner, 0);
+  clip-path: var(--shape-inner, var(--shape, none));
+  
+  background: 
+    var(--texture-bg, none),
+    var(--fill-bg, var(--fill-gradient-radial));
+  background-size: var(--texture-size, auto), auto;
+  background-position: var(--texture-position, 0 0), 0 0;
+
+  --span-backdrop-blur: var(--blur-inner);
+  backdrop-filter: blur(var(--span-backdrop-blur)) saturate(var(--sat));
+  -webkit-backdrop-filter: blur(var(--span-backdrop-blur)) saturate(var(--sat));
+
+  box-shadow:
+    var(--inset-shadows-strong),
+    0 2px 8px hsl(0 0% 0% / var(--shadow-a)),
+    var(--bloom-shadows);
+
+  transition: transform var(--dur-2) var(--curve), filter var(--dur-2) var(--curve);
+}
+
+.button > span{
+  --span-margin-x: var(--b);
+}
+
+/* =========================
+   Button
+   ========================= */
+
+/* Shared: ::before pseudo-element */
+:where(.button, .chip)::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius, 0);
+  clip-path: var(--shape, none);
+  background: var(--rim-gradient);
+  backdrop-filter: blur(var(--blur-outer)) saturate(var(--sat));
+  -webkit-backdrop-filter: blur(var(--blur-outer)) saturate(var(--sat));
+  box-shadow: 0 0 0 1px hsl(0 0% 0% / .28);
+  transition: filter var(--dur-2) var(--curve), transform var(--dur-2) var(--curve);
+}
+
+
+.button > span::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  clip-path: inherit;
+  pointer-events:none;
+
+  /* Corner facets */
+  background:
+    radial-gradient(28px 28px at 0% 0%,     hsl(from var(--mat-top-color) h s l / var(--facet)), transparent 90%),
+    radial-gradient(28px 28px at 100% 0%,   hsl(from var(--mat-top-color) h s l / calc(var(--facet) * .55)), transparent 90%),
+    radial-gradient(34px 34px at 0% 100%,   hsl(from var(--mat-bottom-color) h s l / calc(var(--facet) * 1.15)), transparent 92%),
+    radial-gradient(34px 34px at 100% 100%, hsl(from var(--mat-bottom-color) h s l / calc(var(--facet) * .75)), transparent 92%);
+  mix-blend-mode: screen;
+  opacity: .2;
+}
+
+.hoverable{
+  cursor: pointer;
+}
+
+.hoverable:hover > span{
+  transform: translateY(-1px);
+  filter: brightness(1.04) saturate(1.05);
+}
+.hoverable:active > span{
+  transform: translateY(0px) scale(0.99);
+  filter: brightness(0.98) saturate(1.0);
+}
+
+.button.selected > span{
+  filter: brightness(1.1) saturate(1.15);
+  box-shadow:
+    inset 0 1px 0 hsl(from var(--mat-top-color) h s l / .28),
+    inset 0 -1px 0 hsl(0 0% 0% / .22),
+    0 2px 8px hsl(0 0% 0% / var(--shadow-a)),
+    0 0 0 2px hsl(from var(--mat-top-color) h s l / 0.4);
+}
+.disabled,
+:disabled{
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: .55;
+}
+
+.button:focus-visible{
+  outline: none;
+}
+
+.button:focus-visible::before{
+  box-shadow:
+    0 0 0 1px hsl(0 0% 0% / .28),
+    0 0 0 3px hsl(from var(--mat-top-color) h s l / var(--focus-ring));
+}
+
+/* Shared: bloom variants */
+:where(.button, .chip)[class*="bloom-"] > span{
+  clip-path: var(--shape-inner, var(--shape, none));
+  filter: none;
+  isolation: isolate;
+  transform: translateZ(1);
+  /* Preserve sizing from shared rule */
+  width: calc(100% - calc(var(--span-margin-x, 0px) * 2));
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.button[class*="bloom-"] > span{
+  box-shadow:
+    var(--inset-shadows-strong),
+    0 12px 30px hsl(0 0% 0% / var(--shadow-a , 0.4));
+}
+
+/* =========================
+   Chip
+   ========================= */
+
+.chip > span{
+  gap: var(--chip-gap);
+  height: var(--chip-h);
+  padding: 0 var(--chip-px);
+  font-size: var(--chip-fs, var(--text-sm));
+  border-radius: var(--radius-inner, var(--radius-pill));
+}
+
+.chip::before{
+  border-radius: var(--radius, var(--radius-pill));
+}
+.chip.hoverable{
+  cursor: pointer;
+}
+
+.chip.hoverable:hover > span{ filter: brightness(1.05) saturate(1.06); }
+
+.chip[class*="bloom-"] > span{
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+/* Firefox fix: apply backdrop-filter via pseudo-element when bloom is active */
+.chip[class*="bloom-"] > span::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  clip-path: inherit;
+  backdrop-filter: blur(var(--span-backdrop-blur)) saturate(var(--sat));
+  -webkit-backdrop-filter: blur(var(--span-backdrop-blur)) saturate(var(--sat));
+  z-index: 0;
+}
+
+/* =========================
+   Surface: card, sheet, dialog, frame
+   ========================= */
+
+/* Key rules:
+   - content must always render above glass layers
+   - container must NOT clip popovers (so keep clip-path off the container)
+   - rim/fill are clipped on pseudo-elements instead */
+:where(.surface){
+  --mat-top: var(--ui-secondary-top);
+  --mat-bottom: var(--ui-secondary-bottom);
+  /* Extract lightness from --ui-secondary-top: 210 80% 78% */
+  --mat-top-l: 78;
+  --mat-bottom-l: 66;
+  
+  /* Bloom using filter: drop-shadow (not clipped by clip-path) */
+  filter: var(--bloom-filter);
+
+  --rim-a: .18; --rim-b: .12;
+  --fill-a: .04; --fill-b: .08; --fill-c: .16;
+  --facet: .12;
+  --blur-outer: 3px;
+  --blur-inner: 14px;
+  --sat: 100%;
+  --shadow-a: var(--shadow-2);
+
+  position: relative;
+  isolation: isolate;
+  /* Allow bloom to escape bounds */
+  overflow: visible;
+  border-radius: var(--radius, var(--radius-lg));
+  clip-path: var(--shape, none);
+
+  /* Set --mat-text: <H S L triple> to force explicit override */
+  color: var(--mat-text-color);
+  font-family: var(--font-sans);
+
+  padding: var(--surface-pad, var(--space-5));
+}
+
+.surface::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: var(--radius, var(--radius-lg));
+  clip-path: var(--shape, none);
+  z-index: 0;
+
+  background: var(--rim-bg, var(--rim-gradient));
+
+  backdrop-filter: blur(var(--blur-outer)) saturate(var(--sat));
+  -webkit-backdrop-filter: blur(var(--blur-outer)) saturate(var(--sat));
+  
+  transition: border-radius var(--dur-2) var(--curve), clip-path var(--dur-2) var(--curve), background var(--dur-2) var(--curve);
+
+  box-shadow:
+    0 0 0 1px hsl(0 0% 0% / .25),
+    0 16px 40px hsl(0 0% 0% / var(--shadow-a));
+  pointer-events:none;
+}
+
+.surface::after{
+  content:"";
+  position:absolute;
+  inset: var(--surface-inset, var(--b));
+  border-radius: var(--radius-inner, calc(var(--radius, var(--radius-lg)) - 4px));
+  clip-path: var(--shape-inner, none);
+  z-index: 0;
+  pointer-events: none;
+
+  background: 
+    var(--texture-bg, none),
+    var(--fill-bg, var(--fill-gradient-radial));
+  background-size: var(--texture-size, auto), auto;
+  background-position: var(--texture-position, 0 0), 0 0;
+
+  backdrop-filter: blur(var(--blur-inner)) saturate(var(--sat));
+  -webkit-backdrop-filter: blur(var(--blur-outer)) saturate(var(--sat));
+  
+  transition: border-radius var(--dur-2) var(--curve), clip-path var(--dur-2) var(--curve), background var(--dur-2) var(--curve);
+
+  box-shadow:
+    var(--inset-shadows-base),
+    var(--bloom-shadows);
+}
+
+.surface > *{ 
+  position: relative; 
+  z-index: 2; 
+}
+
+/* Surface variants */
+.card{ --surface-pad: var(--space-5); }
+.sheet{ --surface-pad: var(--space-6); }
+.dialog{ --surface-pad: var(--space-5); }
+.frame{ --surface-pad: var(--space-4); }
+
+/* Surface overlay */
+/* Overlay role: keep the finish identity, add readability */
+.surface.overlay{
+  --scrim-a: var(--overlay-scrim-a, .45);
+  --scrim-b: var(--overlay-scrim-b, .60);
+  
+  /* Critical: blur at element level for backdrop-filter to work */
+  backdrop-filter: blur(var(--overlay-blur, var(--blur-inner))) saturate(var(--overlay-sat, var(--sat)));
+  -webkit-backdrop-filter: blur(var(--overlay-blur, var(--blur-inner))) saturate(var(--overlay-sat, var(--sat)));
+}
+
+.surface.overlay::after{
+  backdrop-filter: blur(var(--overlay-blur, var(--blur-inner))) saturate(var(--overlay-sat, var(--sat))) var(--overlay-contrast, );
+  -webkit-backdrop-filter: blur(var(--overlay-blur, var(--blur-inner))) saturate(var(--overlay-sat, var(--sat))) var(--overlay-contrast, );
+
+  /* Scrim included in the background so blur stays visible */
+  background:
+    linear-gradient(180deg,
+      hsl(0 0% 0% / var(--scrim-a)),
+      hsl(0 0% 0% / var(--scrim-b))
+    ),
+    var(--texture-bg, none),
+    var(--fill-bg, var(--fill-gradient-radial));
+  background-size: auto, var(--texture-size, auto), auto;
+  background-position: 0 0, var(--texture-position, 0 0), 0 0;
+}
+
+
+/* Surface bloom variants */
+.surface[class*="bloom-"]::before{
+  clip-path: var(--shape, none);
+}
+
+.surface[class*="bloom-"]::after{
+  clip-path: var(--shape-inner, none);
+  box-shadow: var(--inset-shadows-base);
+}
+
+/* =========================
+   Bloom modifier (adds glow/emission)
+   ========================= */
+
+:where(.button, .chip){
+  container-type: block-size;
+  --bloom-size-factor: 1;
+}
+
+:where(.surface) {
+  --bloom-size-factor: 0.75;
+}
+
+.bloom-weak{
+  --bloom-spread: calc(8px * var(--bloom-size-factor));
+  --bloom-intensity: calc(0.2 * var(--bloom-size-factor));
+}
+
+.bloom-mild{
+  --bloom-spread: calc(8px * var(--bloom-size-factor));
+  --bloom-intensity: calc(0.5 * var(--bloom-size-factor));
+}
+
+.bloom-strong{
+  --bloom-spread: calc(7px * var(--bloom-size-factor));
+  --bloom-intensity: calc(0.7 * var(--bloom-size-factor));
+}
+
+
+
+/* When bloom is active: use filter on wrapper (unclipped), clip-path on inner elements */
+:is(.button, .chip, .surface)[class*="bloom-"]{
+  clip-path: none !important;
+  overflow: visible !important;
+  filter: var(--bloom-filter);
+}
+
+/* =========================
+   Segmented control
+   ========================= */
+
+.segmented{
+  --mat-top: var(--ui-primary-top);
+  --mat-bottom: var(--ui-primary-bottom);
+  --mat-top-l: 80;
+  --mat-bottom-l: 68;
+  --rim-a: .18; --rim-b: .12;
+  
+  display:inline-flex;
+  gap: var(--seg-gap);
+  padding: var(--seg-pad);
+  border-radius: var(--radius, var(--radius-pill));
+  clip-path: var(--shape, inset(0));
+  position: relative;
+  font-family: var(--font-sans);
+}
+
+.segmented::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  clip-path: inherit;
+  background: var(--rim-gradient);
+  box-shadow: 0 0 0 1px hsl(0 0% 0% / .22);
+  pointer-events:none;
+}
+
+.segmented > button{
+  all: unset;
+  position: relative;
+  z-index: 1;
+  padding: 8px 12px;
+  border-radius: calc(var(--radius, var(--radius-pill)) - 3px);
+  color: color-mix(in oklab, var(--mat-text-color, hsl(var(--ui-text-on-dark) / 1)) 86%, transparent);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  transition: background var(--dur-2) var(--curve), color var(--dur-2) var(--curve);
+}
+
+.segmented > button.selected{
+  background: radial-gradient(120% 140% at 20% 0%,
+    hsl(from var(--mat-top-color) h s l / .10),
+    hsl(from var(--mat-bottom-color) h s l / .18)
+  );
+  color: var(--mat-text-color, hsl(var(--ui-text-on-dark) / 1));
+}
+
+.segmented > button:hover{ color: var(--mat-text-color, hsl(var(--ui-text-on-dark) / 1)); }
+
+/* =========================
+   Dropdown (pure CSS via <details>)
+   ========================= */
+
+details.dropdown{
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  z-index: 5;
+}
+
+details.dropdown[open]{
+  z-index: 999;
+}
+
+details.dropdown > summary{ list-style: none; }
+details.dropdown > summary::-webkit-details-marker{ display: none; }
+
+details.dropdown > summary{ position: relative; z-index: 2; }
+
+details.dropdown .chev{
+  margin-left: var(--btn-gap);
+  opacity: .75;
+  transition: transform var(--dur-2) var(--curve), opacity var(--dur-2) var(--curve);
+}
+details.dropdown[open] .chev{ transform: rotate(180deg); opacity: 1; }
+
+details.dropdown > .menu{
+  position: absolute;
+  top: calc(100% + var(--space-2));
+  left: 0;
+  z-index: 3;
+
+  min-width: min(18rem, 92vw);
+  padding: var(--space-2);
+  
+  overflow: visible;
+
+  transform-origin: top left;
+  animation: dropdown-in var(--dur-2) var(--curve) both;
+}
+
+details.dropdown.align-end > .menu{
+  left: auto;
+  right: 0;
+  transform-origin: top right;
+}
+
+@keyframes dropdown-in{
+  from { opacity: 0; transform: translateY(-4px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+details.dropdown .menu-item{
+  all: unset;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: calc(100% - 4px);
+
+  position: relative;
+  z-index: 2;
+
+  padding: var(--space-2) 1rem;
+
+  margin: 2px;
+  border-radius: var(--radius-sm);
+  color: var(--mat-text-color);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  text-shadow: 0 1px 0 hsl(0 0% 0% / .35);
+  transition: text-decoration var(--dur-1) var(--curve);
+  
+  overflow: hidden;
+  isolation: isolate;
+}
+
+details.dropdown .menu-item:hover{ 
+  text-decoration: underline;
+  text-decoration-color: var(--mat-text-color);
+  text-underline-offset: 2px;
+}
+
+details.dropdown .menu-item:active{ 
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--mat-text-color) 70%, transparent);
+  text-underline-offset: 2px;
+}
+
+/* =========================
+   Slider (input[type=range])
+   ========================= */
+
+.slider{
+  --mat-top: var(--ui-primary-top);
+  --mat-bottom: var(--ui-primary-bottom);
+  --mat-top-l: 80;
+  --mat-bottom-l: 68;
+  --mat-text: var(--ui-primary-text);
+  
+  width: 320px;
+  max-width: 100%;
+  display: grid;
+  gap: 10px;
+  font-family: var(--font-sans);
+  color: var(--mat-text-color, hsl(var(--ui-text-on-dark) / 1));
+}
+
+.slider label{
+  font-size: var(--text-sm);
+  color: color-mix(in oklab, var(--mat-text-color, hsl(var(--ui-text-on-dark) / 1)) 70%, transparent);
+}
+
+.slider input[type="range"]{
+  width: 100%;
+  accent-color: var(--mat-top-color);
+}
+
+.slider input[type="range"]::-webkit-slider-thumb{
+  border-radius: var(--radius, var(--radius-pill));
+  clip-path: var(--shape, none);
+}
+
+  .slider input[type="range"]::-moz-range-thumb{
+    border-radius: var(--radius, var(--radius-pill));
+    clip-path: var(--shape, none);
+  }
+
+/* =========================
+   Code styles (shared)
+   ========================= */
+code, .code{
+  font-family: var(--font-mono, ui-monospace, courier new, monospace);
+  font-size: var(--text-sm);
+  line-height: 1.2;
+
+  /* Compute code colors from app colors */
+  /* Light mode (app-bg-l=92): code-bg-l=10 = 92-82 */
+  /* Dark mode (app-bg-l=8): code-bg-l=18 = 8+10 */
+  --code-bg-l: clamp(18, calc(var(--app-bg-l) - 82), 10);
+  --code-fg-l: calc(100 - var(--code-bg-l));
+
+  display: inline-flex;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid hsl(0 0% 100% / .08);
+  background: hsl(0 0% calc(var(--code-bg-l) * 1%));
+  color: hsl(0 0% calc(var(--code-fg-l) * 1%));
+  margin: 0.25rem auto;
+  white-space: pre-wrap;
+  vertical-align: baseline;
+  width: fit-content;
+  text-align: left;
+  word-break: break-word;
+}
+
+code.block, .code.block{
+  margin: 0 6px 6px 0;
+  width: 100%;
+  display: block;
+}
+
+

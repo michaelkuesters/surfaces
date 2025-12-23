@@ -1,0 +1,54 @@
+/* vxs-ui-kit/demo.css (only for the showcase page) */
+
+body{
+  margin:0;
+  font-family: var(--font-sans);
+  color: hsl(var(--app-fg) / 1);
+  background:
+    radial-gradient(1200px 900px at 20% 10%, hsl(280 90% 30% / .25), transparent 60%),
+    radial-gradient(1200px 900px at 80% 30%, hsl(175 90% 25% / .22), transparent 60%),
+    linear-gradient(180deg, hsl(var(--app-bg) / 1), hsl(var(--app-bg) / 0.95));
+  min-height: 100vh;
+}
+
+.wrap{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 46px 20px 70px;
+}
+
+h1{
+  font-size: 28px;
+  margin: 0 0 10px;
+  letter-spacing: .2px;
+}
+
+p.lead{
+  margin: 0 0 24px;
+  color: hsl(var(--app-muted) / 1);
+  max-width: 70ch;
+}
+
+h2{
+  font-size: 16px;
+  margin: 0 0 10px;
+  color: hsl(var(--app-fg) / .92);
+  letter-spacing: .2px;
+}
+
+.small{
+  font-size: var(--text-sm);
+  color: hsl(var(--app-muted) / 1);
+  line-height: 2;
+  
+}
+
+.section{
+  margin-top: 26px;
+}
+
+/* Ensure all elements inside a stack have the same width */
+.stack > * {
+  width: 100%;
+  box-sizing: border-box;
+}
